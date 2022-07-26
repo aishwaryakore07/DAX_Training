@@ -1,0 +1,21 @@
+SELECT CustomerId, FirstName, LastName, City FROM CUSTOMERS
+WHERE FirstName LIKE 'N%' OR CITY='Prague';
+
+SELECT TrackId, Name, Composer, UnitPrice FROM Tracks
+WHERE UnitPrice BETWEEN 0 AND 1 AND Composer NOT LIKE '%T%';
+
+SELECT InvoiceDate, SUM(Total), AVG(Total) FROM Invoices
+WHERE strftime('%m', InvoiceDate) IN('06') AND strftime('%Y', InvoiceDate) IN('2012') GROUP BY InvoiceDate;
+
+SELECT TrackId ,count(Quantity) FROM Invoice_items
+GROUP BY TrackId ORDER BY count(Quantity) DESC;
+
+SELECT ArtistId, Name FROM Artists
+WHERE ArtistId NOT IN (SELECT ArtistId FROM Albums WHERE AlbumId NOT IN (SELECT AlbumId FROM Tracks WHERE TrackId NOT IN (SELECT TrackId from Playlist_track
+ WHERE PlaylistId NOT IN (SELECT PlaylistId FROM Playlists))));
+ 
+SELEct AlbumId,Title FROM albums as a INNER JOIN tracks as t
+ON a.AlbumId = t.AlbumId
+INNER JOIN 
+playlist_track as pt ON t.TrackId = pt.TrackId GROUP by a.AlbumId HAVING count(pt.PlaylistId)>5;
+
